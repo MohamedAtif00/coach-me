@@ -1,0 +1,87 @@
+<div class="carry" >
+
+    <div class="container">
+        <div class="text">
+           Trainee Register
+        </div>
+        <form action="#" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                      <!-- Avatar upload section -->
+          <div class="form-group">
+            <div class="profile-section mt-5">
+              <div class="avatar-container">
+                <!-- Display current profile picture -->
+                <img [src]="imageSrc" alt="Profile Picture" class="avatar">
+                <!-- Input for selecting a new profile picture -->
+                <input formControlName="profileImage" type="file" id="avatar-upload" class="avatar-upload"
+                  (change)="onFileSelected($event)">
+                <!-- Label for editing the profile picture -->
+                <label for="avatar-upload" class="avatar-edit">Edit Image</label>
+              </div>
+            </div>
+          </div>
+           <div class="form-row">
+              <div class="input-data">
+                 <input type="text" formControlName="firstName" required>
+                 <div class="underline"></div>
+                 <label for="">First Name</label>
+              </div>
+              <div class="input-data">
+                 <input type="text"  formControlName="lastName" required>
+                 <div class="underline"></div>
+                 <label for="">Last Name</label>
+              </div>
+           </div>
+           <div class="form-row">
+              <div class="input-data">
+                 <input type="text" formControlName="email" required>
+                 <div class="underline"></div>
+                 <label for="">Email Address</label>
+              </div>
+              <div class="input-data">
+                 <input type="password" formControlName="password" required>
+                 <div class="underline"></div>
+                 <label for="">Password</label>
+              </div>
+           </div>
+           <!-- Form group for gender selection -->
+          <div class="form-group">
+            <div class="row mt-3 px-3">
+              <!-- Label for gender selection -->
+              <label class=" form-label text-start me-4">Gender</label>
+              <!-- Gender radio button options -->
+              <div class="d-flex ms-5">
+                <!-- Male option -->
+                <div class=" form-check form-check-inline me-2 col-md-4">
+                  <input class="form-check-input" type="radio" formControlName="gender" id="male" value="male">
+                  <label class="form-floating form-check-label" for="male">Male</label>
+                </div>
+                <!-- Female option -->
+                <div class="form-check form-check-inline me-2 col-md-4">
+                  <input class="form-check-input" type="radio" formControlName="gender" id="female" value="female">
+                  <label class=" form-check-label" for="female">Female</label>
+                </div>
+                <!-- Other option -->
+                <div class=" form-check form-check-inline me-4 col-md-4">
+                  <input class=" form-check-input" type="radio" formControlName="gender" id="other" value="other"
+                    checked>
+                  <label class="form-check-label" for="other">Other</label>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="form-row">
+           <div class="input-data textarea">
+
+              <br />
+              <div class="form-row submit-btn">
+                 <div class="input-data">
+                    <div class="inner"></div>
+                    <input type="submit" value="submit">
+                 </div>
+              </div>
+              </div>
+           </div>
+        </form>
+        </div>
+
+</div>

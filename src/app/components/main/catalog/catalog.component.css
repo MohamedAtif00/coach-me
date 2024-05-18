@@ -1,0 +1,159 @@
+.navbar {
+    color: white;
+    padding: 0 1em;
+    font-size: 1rem;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      .navbar-icon {
+        max-height: 2rem;
+        margin-right: 1rem;
+      }
+    }
+    .navbar-menu {
+      display: flex;
+      margin-left: auto;
+      .navbar-item {
+        display: flex;
+        align-items: center;
+        padding: 1em;
+        a {
+        padding: 0;        
+        }
+        transition: all 0.2s;
+        &:hover {
+          background-color: var(--theme);
+        }
+      }
+    }
+  }
+  
+  .hero {
+    &:not(.no-gutters) {
+      padding: 3rem 1rem;    
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--overlay);
+    &.hero-has-background {
+      color: white;    
+      min-height: 24rem;
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        background: var(--background) center/cover;
+        top: 0; bottom: 0; left: 0; right: 0;
+        z-index: -1;
+        pointer-events: none;
+      }
+    }
+    &.row {
+      flex-direction: row;
+    }
+  }
+
+
+
+
+  .coach-image {
+    border-radius: 100px;
+    border: 2px solid transparent;
+    /* Set initial border color */
+    transition: border-color 0.3s ease;
+    /* Add a smooth transition effect */
+  }
+  
+  .coach-image:hover {
+    border: solid 5px;
+    border-color: #628730;
+    /* Change border color to green on hover */
+  }
+  
+  .btn.btn-custom {
+    color: #ffffff;
+    background-color: #628730;
+    border-radius: 40px;
+  }
+  
+  .btn.btn-custom:hover {
+    background-color: #0D1315;
+  }
+  
+  @keyframes zoomInOut {
+    0% {
+      transform: scale(1);
+    }
+  
+    50% {
+      transform: scale(1.08);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  header {
+    animation: zoomInOut 5s infinite;
+  }
+  
+//////////// Rating ///////////////////////
+  .star {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .star > * {
+    float: right;
+  }
+  .star label {
+    height: 50px;
+    width: 50px;
+    position: relative;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  .star label:nth-of-type(5):after {
+    animation-delay: 0.5s;
+  }
+  .star label:nth-of-type(4):after {
+    animation-delay: 0.4s;
+  }
+  .star label:nth-of-type(3):after {
+    animation-delay: 0.3s;
+  }
+  .star label:nth-of-type(2):after {
+    animation-delay: 0.2s;
+  }
+  .star label:nth-of-type(1):after {
+    animation-delay: 0.1s;
+  }
+  .star label:after {
+    transition: all 1s ease-out;
+    position: absolute;
+    content: "☆";
+    color: white;
+    font-size: 40px;
+  }
+  .star input {
+    display: none;
+  }
+  .star input:checked + label:after,
+  .star input:checked ~ label:after {
+    content: "★";
+    color: gold;
+    text-shadow: 0 0 10px gold;
+  }
+
