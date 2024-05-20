@@ -1,136 +1,167 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, map, of, tap, throwError } from "rxjs";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
 import { GeneralResponse } from "src/app/shared/general.response";
-import { StudentLoginRequest, DonorLoginRequest } from "../model/Request/login.request";
-import { StudentRegister, DonorRegister } from "../model/Request/register.request";
 import { AllowAccessResponse } from "../model/Response/allow-access.response";
 import { StudentLoginResponse, DonorLoginResponse } from "../model/Response/login.response";
-import { StudentRegisterResponse } from "../model/Response/register.response";
+import { RegisterResponse } from "../model/Response/register.response";
 import { development } from "src/environment";
 import { UserModel } from "src/app/authentication/model/user.model";
 import { Trainee } from "src/app/model/trainee.model";
+import { LoginRequest } from "../model/Request/login.request";
+import { Router } from "@angular/router";
 
 @Injectable({
-    providedIn:'root'
+  providedIn: 'root'
 })
-export class AuthService{
+export class AuthService {
 
+  private apiUrl = development.localhost + 'Authentication/';
+  private login = development.localhost + 'Authentication/Login';
+  private getAllowAccessUrl = this.apiUrl + 'AllowAccess/';
+  private getCheckUsernameUrl = this.apiUrl + 'CheckUsername/';
+  private postAdminLoginUrl = this.apiUrl + 'AdminLogin';
+  private postTraineeRegisterUrl = this.apiUrl + 'TraineeRegister';
+  private postTrainerRegisterUrl = this.apiUrl + 'TrainerRegister';
 
-    getAllowAccess:string = `${development.localhost}Authentication/AllowAccess/`
-    getCheckUsername:string = `${development.localhost}Authentication/CheckUsername/`
-    postAdminLogin:string = `${development.localhost}Authentication/AdminLogin`
-    getUserInformation:string = `${development.localhost}Authentication/`;
-    postTraineeRegister:string = `${development.localhost}Authentication/TraineeRegister`;
+  private userSubject = new BehaviorSubject<UserModel | null>(null);
+  user$ = this.userSubject.asObservable();
+  private token: string | null = localStorage.getItem('Token');
 
-
-    user!:UserModel | null;
-    token!:string | null
-
-    constructor(private http:HttpClient){
-        
-        this.token = localStorage.getItem('Token')
-        if(this.token)
-        this.http.get<any>(this.getAllowAccess+this.token).subscribe(data=>{
-            this.user = {id:data.userId,username:data.username,email:data.email,role:data.role,token:data.token}
-            //console.log('service',this.user);
-        })
-    }
-
-    init()
-    {
-        this.token = localStorage.getItem('Token')
-        if(this.token)
-            return this.http.post<any>(this.getAllowAccess , {token:this.token})
-        else return null
-
-    }
-
-    GetToken()
-    {
-        return localStorage.getItem('Token');
-    }
-
-    SetTokens(token:string)
-    {
-         localStorage.setItem('Token',token)
-    }
-
-    TraineeRegister(request:FormData)
-    {
-        return this.http.post<GeneralResponse<any>>(this.postTraineeRegister,request).pipe(tap(data=>{
-            this.AllowAccessToken().subscribe()
-        }))
-    }
-
-
+  constructor(private http: HttpClient,private router:Router) {
     
-    
-
-    // AdminLogin(login:{username:string,password:string})
-    // {
-    //     return this.http.post<GeneralResponse<DonorLoginResponse>>(this.postAdminLogin,login)
-    //     .pipe(
-    //         map((data) =>{
-    //         if(data) console.log(data);
-            
-
-    //         if(data.value)
-    //         {
-    //             this.user = {id:data.value.userId,username:data.value.username,email:'',role:data.value.role,token:data.value.jwtToken}
-    //             localStorage.setItem('User_Token_Key',data.value.jwtToken)
-    //             this.token =this.GetToken()
-    //         }
-    //             return data
-    //     })
-    //     );
-    // }
-
-
-
-    AllowAccessToken(): Observable<AllowAccessResponse | null> {
-        // get user data
-        if(this.user)
-        console.log(this.user.token);
+    if (this.getToken()) {
+      this.allowAccessToken().subscribe(data=>{
+        console.log('Auth Servcie',data);
         
-        const token = this.GetToken();
-      
-        if (!token) {
-          return of(null); // Return null if no token is available
-        }
-      
-        const url = `${this.getAllowAccess}`;
-      
-        return this.http.get<AllowAccessResponse>(url+token).pipe(tap(data=>{
-            // Get the data of the user from back-end
-            this.user = this.user = {id:data.userId,username:data.userName,email:data.email,role:data.role,token:data.token}
+      });
+    }
+  }
 
-        }),
-          catchError(error => {
-            // Handle errors appropriately (e.g., log the error, display a user-friendly message)
-            console.error('Error fetching allow access:', error);
-            return throwError(() => new Error('Failed to get allow access')); // Re-throw a user-friendly error
-          })
+  private saveToken(token: string): void {
+    localStorage.setItem('Token', token);
+    this.token = token;
+  }
+
+  private removeToken(): void {
+    localStorage.removeItem('Token');
+    this.token = null;
+  }
+
+  getToken(): string | null {
+    return this.token;
+  }
+
+  setTokens(token: string): void {
+    this.saveToken(token);
+  }
+
+  init(): Observable<AllowAccessResponse | null> | null {
+    if (this.token) {
+      return this.http.post<AllowAccessResponse>(this.getAllowAccessUrl, { token: this.token })
+        .pipe(
+          tap(response => this.userSubject.next({
+            id: response.userId,
+            username: response.username,
+            email: response.emai,
+            role: response.role,
+            token: response.token
+          })),
+          catchError(this.handleError)
         );
+    } else {
+      return null;
     }
+  }
 
-    GetUserInformation(id:string)
-    {
-        return this.http.get<GeneralResponse<Trainee>>(this.getUserInformation+id);
+  TraineeRegister(request: FormData): Observable<GeneralResponse<any>> {
+    return this.http.post<GeneralResponse<RegisterResponse>>(this.postTraineeRegisterUrl, request)
+      .pipe(
+        tap((registerResponse) => {
+            if(registerResponse.value) 
+              {
+                this.setTokens(registerResponse.value?.jwtToken)
+                this.init()
+              }
+                
+            }),
+        catchError(this.handleError)
+      );
+  }
+
+
+  TrainerRegister(request: FormData): Observable<GeneralResponse<any>> {
+    return this.http.post<GeneralResponse<RegisterResponse>>(this.postTrainerRegisterUrl, request)
+      .pipe(
+        tap((registerResponse) => {
+            if(registerResponse.value) 
+              {
+                this.setTokens(registerResponse.value?.jwtToken)
+                this.init()
+              }
+                
+            }),
+        catchError(this.handleError)
+      );
+  }
+
+  Login(request:LoginRequest)
+  {
+    return this.http.post<GeneralResponse<any>>(this.login,request)
+    .pipe(
+      tap((registerResponse) => {
+          if(registerResponse.value) 
+            {
+              this.setTokens(registerResponse.value?.jwtToken)
+              this.init()
+            }
+              
+          }),
+      catchError(this.handleError)
+    );
+  }
+
+
+  
+
+  allowAccessToken(): Observable<AllowAccessResponse | null> {
+    if (!this.token) {
+      return of(null);
     }
-      
+    return this.http.get<AllowAccessResponse>(this.getAllowAccessUrl + this.token)
+      .pipe(
+        tap(response => {
+          this.userSubject.next({
+            id: response.userId,
+            username: response.username,
+            email: response.emai,
+            role: response.role,
+            token: response.token
+          });
+        }),
+        catchError(this.handleError)
+      );
+  }
 
-    CheckUsrname(username:string)
-    {
-        return this.http.get<boolean>(this.getCheckUsername+username);
-    }
+  getUserInformation(id: string): Observable<GeneralResponse<Trainee>> {
+    return this.http.get<GeneralResponse<Trainee>>(this.apiUrl + id)
+      .pipe(catchError(this.handleError));
+  }
 
-    Logout()
-    {
-        localStorage.removeItem('Token')
-        this.user = null
-        this.token = null
-    }
+  checkUsername(username: string): Observable<boolean> {
+    return this.http.get<boolean>(this.getCheckUsernameUrl + username)
+      .pipe(catchError(this.handleError));
+  }
 
+  logout(): void {
+    this.removeToken();
+    this.userSubject.next(null);
+    this.router.navigate([''])
+  }
 
+  private handleError(error: any): Observable<never> {
+    console.error('Error occurred:', error);
+    return throwError(() => new Error('An error occurred; please try again later.'));
+  }
 }

@@ -1,0 +1,51 @@
+<div
+  class="form container-fluid overflow-hidden"
+  style="
+    background-image: url(../../../../assets/register/rodrigo-s-2mz9IKab7DE-unsplash.jpg);
+    background-position: center;
+    background-size:cover;
+    height: 100vh;
+  "
+>
+  <form
+    class="d-flex flex-column"
+    style="margin-top: 150px;"
+    [formGroup]="planForm"
+    (ngSubmit)="onSubmit()"
+  >
+  <h1 class="align-self-center fs-1 mb-5 mt-2 ">Create Plan</h1>
+    <mat-form-field appearance="fill">
+      <mat-label>Duration</mat-label>
+      <input matInput formControlName="duration" type="number" value="''" />
+      <mat-error *ngIf="planForm.get('duration')?.hasError('required')"
+        >Duration is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Focus</mat-label>
+      <input matInput formControlName="focus" type="text" />
+      <mat-error *ngIf="planForm.get('focus')?.hasError('required')"
+        >Focus is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sessions</mat-label>
+      <input matInput formControlName="sessions" type="number" />
+      <mat-error *ngIf="planForm.get('sessions')?.hasError('required')"
+        >Sessions are required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" type="number" />
+      <mat-error *ngIf="planForm.get('price')?.hasError('required')"
+        >Price is required</mat-error
+      >
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Create Plan</button>
+  </form>
+</div>

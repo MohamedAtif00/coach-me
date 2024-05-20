@@ -1,9 +1,9 @@
-export interface StudentLoginRequest{
-    username:string,
+export interface LoginRequest{
+    email:string,
     password:string
 }
 
-export interface DonorLoginRequest{
-    username:string,
-    password:string
-}
+// export interface DonorLoginRequest{
+//     username:string,
+//     password:string
+// }

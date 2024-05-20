@@ -1,7 +1,7 @@
 export interface AllowAccessResponse{
     userId:string,
-    userName:string,
+    username:string,
     role:string,
-    email:string,
+    emai:string,
     token:string,
 }

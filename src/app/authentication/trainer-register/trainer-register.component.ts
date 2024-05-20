@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-trainer-register',
+  templateUrl: './trainer-register.component.html',
+  styleUrls: ['./trainer-register.component.css']
 })
-export class RegisterComponent implements OnInit{
+export class TrainerRegisterComponent {
+
+
 
   imageSrc = '../../assets/img/avatar.png';
   registerForm!: FormGroup ;
   request = new FormData();
-  imageaSelected!:File;
+  imageSelected!:File;
 
   constructor(private authServ: AuthService, 
               private fb: FormBuilder,
@@ -47,13 +49,12 @@ export class RegisterComponent implements OnInit{
       this.request.append('email', this.registerForm.get('email')?.value);
       this.request.append('password', this.registerForm.get('password')?.value);
       this.request.append('gender',this.registerForm.get('gender')?.value);
-      this.request.append('image',this.imageaSelected);
+      this.request.append('image',this.imageSelected);
 
-      this.authServ.TraineeRegister(this.request).subscribe(data=>{
-        console.log(data);
+      this.authServ.TrainerRegister(this.request).subscribe(data=>{
+        console.log(data.value);
         if(data.value)
           this.router.navigate(['']);
-        
       });
     }
   }
@@ -62,7 +63,7 @@ export class RegisterComponent implements OnInit{
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      this.imageaSelected = file
+      this.imageSelected = file
       reader.onload = () => {
         this.imageSrc = reader.result as string;
       };
@@ -71,7 +72,6 @@ export class RegisterComponent implements OnInit{
       
     }
   }
-  
 
 
 }
