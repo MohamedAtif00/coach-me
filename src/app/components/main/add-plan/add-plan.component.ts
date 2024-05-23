@@ -5,6 +5,7 @@ import { PlanService } from 'src/app/shared/service/plan.service';
 
 export interface Plan {
   trainerId: string;
+  name:string;
   duration: number;
   focus: string;
   sessions: number;
@@ -24,6 +25,7 @@ export class AddPlanComponent {
 
   constructor(private fb: FormBuilder, private planService: PlanService,private authServ:AuthService) {
     this.planForm = this.fb.group({
+      name:['',Validators.required],
       duration: [0, Validators.required],
       focus: ['', Validators.required],
       sessions: [0, Validators.required],
@@ -40,6 +42,7 @@ export class AddPlanComponent {
         if(data){
           const newPlan: Plan = {
             trainerId: data?.id, // id will be set by the backend
+            name:this.planForm.value.name,
             duration: this.planForm.value.duration,
             focus: this.planForm.value.focus,
             sessions: this.planForm.value.sessions,

@@ -15,10 +15,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto my-2 my-lg-0 d-flex align-items-center">
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link text-info  " href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link text-info  " href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link text-info  " href="#portfolio">Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link text-info  " href="#contact">Contact</a></li>
         
         <!-- Find Your Coach Link for Trainee -->
         <li class="nav-item" *ngIf="((authServ.user$ | async)?.role == 'Trainee') ||!(authServ.user$ | async) ">
@@ -29,8 +29,15 @@
 
         <!-- Join as Coach Link for Trainer -->
         <li class="nav-item" *ngIf="!(authServ.user$ | async)?.token">
-          <a class="nav-link btn btn-secondary p-2 rounded rounded-5" [routerLink]="['auth','Trainer']">
+          <a class="nav-link btn btn-secondary p-2 rounded rounded-5 " [routerLink]="['auth','Trainer']">
             Join as Coach
+          </a>
+        </li>
+
+        <!-- Join as Coach Link for Trainer -->
+        <li class="nav-item" *ngIf="(authServ.user$ | async)">
+          <a class="nav-link btn btn-secondary p-2 rounded rounded-5" [routerLink]="['chat']">
+            Messages
           </a>
         </li>
         <!-- Join as Coach Link for Trainer -->

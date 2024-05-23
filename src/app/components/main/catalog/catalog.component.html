@@ -18,7 +18,7 @@
     <div class="row my-5 py-5">
         <!-- Coach 1 -->
     
-     <div class="col-lg-4" >
+     <!-- <div class="col-lg-4" >
         <div class="d-flex ">
             <img src="../../../../assets/img/coach-02.jpg" alt="" height="200px" width="200px" class="coach-image" >
             <div class="">$100</div>
@@ -27,20 +27,19 @@
           <p>Some representative placeholder content for the three columns of text below the carousel. This is the first
             column.</p>
           <p><a class="btn btn-custom"  >View details »</a></p>
-        </div>
+        </div> -->
+
         <!-- Coach 2 -->
-        <div class="col-lg-4"  >
+        <div class="col-lg-4"  *ngFor="let item of trainers">
             <div class="d-flex align-items-center gap-5">
-                <img src="../../../../assets/img/coach-01.jpg" alt="" height="200px" width="200px" class="coach-image" >
-                <div class="fs-4 ">$100</div>
+                <img [src]="base64ToUrl(item.image)" alt="" height="200px" width="200px" class="coach-image" >
             </div>
-          <h2 class="fw-normal">Sherman Warner</h2>
-          <p class="p-0  m-0">Another exciting bit of representative placeholder content. This time, we've moved on to the second column.
-          </p>
+          <h2 class="fw-normal">{{item.username}}</h2>
+          <p class="p-0  m-0">{{item.about}}</p>
           <div class="d-flex flex-column gap-4">
               
               
-              <div class="star " style="width: 61%;">
+              <!-- <div class="star " style="width: 61%;">
                   
                   <input type="radio" checked id="r1">
                   <label for="r1"></label>
@@ -57,47 +56,47 @@
                   <input type="radio" id="r5">
                   <label for="r5"></label>
                   
-                </div>
+                </div> -->
 
-                <p><a class="btn btn-custom" [routerLink]="['/trainer-details']">View details »</a></p>
+                <p><a class="btn btn-custom" [routerLink]="['/trainer-details',item.id.value]">View details »</a></p>
 
           </div>
         </div>
     
         <!-- Coach 3 -->
-        <div class="col-lg-4" >
+        <!-- <div class="col-lg-4" >
           <img src="../../../../assets/img/coach-01.jpg" alt="" height="200px" width="200px" class="coach-image" >
           <h2 class="fw-normal">John Portman</h2>
           <p>And lastly this, the third column of representative placeholder content.</p>
           <p><a class="btn btn-custom" >View details »</a></p>
-        </div>
+        </div> -->
       </div>
     
       <!-- Second Row of Coaches -->
       <div class="row my-5 py-5">
         <!-- Coach 4 -->
-        <div class="col-lg-4" >
+        <!-- <div class="col-lg-4" >
           <img src="../../../../assets/img/coach-04.jpg" alt="" height="200px" width="200px" class="coach-image"  >
           <h2 class="fw-normal">Denis Green</h2>
           <p>And lastly this, the third column of representative placeholder content.</p>
           <p><a class="btn btn-custom" >View details »</a></p>
-        </div>
+        </div> -->
     
         <!-- Coach 5 -->
-        <div class="col-lg-4"  >
+        <!-- <div class="col-lg-4"  >
           <img src="../../../../assets/img/coach-06.jpg" alt="" height="200px" width="200px" class="coach-image" >
           <h2 class="fw-normal">Philip Bailey</h2>
           <p>And lastly this, the third column of representative placeholder content.</p>
           <p><a class="btn btn-custom" >View details »</a></p>
-        </div>
+        </div> -->
     
         <!-- Coach 6 -->
-        <div class="col-lg-4" >
+        <!-- <div class="col-lg-4" >
           <img src="../../../../assets/img/coach-07.jpg" alt="" height="200px" width="200px" class="coach-image" >
           <h2 class="fw-normal">Grace Flynn</h2>
           <p>And lastly this, the third column of representative placeholder content.</p>
           <p><a class="btn btn-custom" >View details »</a></p>
-        </div>
+        </div> -->
       </div>
 
 

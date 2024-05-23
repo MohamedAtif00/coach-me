@@ -27,7 +27,7 @@ export class PlanService{
     GetPlansByTrainer(userId:string)
     {
 
-        return this.http.get<GeneralResponse<any>>(this.getPlanByTrainer+userId);
+        return this.http.get<GeneralResponse<PlanModel[]>>(this.getPlanByTrainer+userId);
 
 
         

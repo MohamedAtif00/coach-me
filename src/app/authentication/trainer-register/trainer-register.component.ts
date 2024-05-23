@@ -35,6 +35,7 @@ export class TrainerRegisterComponent {
       profileImage:  ['../../../assets/image/avatar.png'],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      about:['',Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       gender: ['other', Validators.required],
@@ -47,6 +48,7 @@ export class TrainerRegisterComponent {
       this.request.append('firstName', this.registerForm.get('firstName')?.value);
       this.request.append('lastName', this.registerForm.get('lastName')?.value);
       this.request.append('email', this.registerForm.get('email')?.value);
+      this.request.append('about',this.registerForm.get('about')?.value);
       this.request.append('password', this.registerForm.get('password')?.value);
       this.request.append('gender',this.registerForm.get('gender')?.value);
       this.request.append('image',this.imageSelected);

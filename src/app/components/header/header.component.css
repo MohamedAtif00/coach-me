@@ -248,6 +248,7 @@ sup {
 a {
   color: var(--bs-link-color);
   text-decoration: underline;
+  min-width: fit-content;
 }
 a:hover {
   color: var(--bs-link-hover-color);

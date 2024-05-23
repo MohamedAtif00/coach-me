@@ -34,12 +34,15 @@ export class PlansComponent implements OnInit,AfterViewInit{
         
         if(data)
           {
-            this.planServ.GetPlansByTrainer(data?.id).subscribe(plan=>{
+            this.planServ.GetPlansByTrainer(data.id).subscribe(plan=>{
       
               if(plan.value)
-                console.log('Plans',plan);
-                this.plans = plan.value
-      
+                {
+                  console.log('Plans',plan);
+                  this.plans = plan.value
+        
+
+                }
             })
   
           }

@@ -10,10 +10,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   padding: 10px;
   font-family: 'Poppins', sans-serif;
   background-image: url(../../../assets/register/rodrigo-s-2mz9IKab7DE-unsplash.jpg);
+  background-size: cover;
 }
 .carry::before {
     content: "";

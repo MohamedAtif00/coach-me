@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PlansComponent } from './components/main/plans/plans.component';
+import { ChatComponent } from './components/main/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PlansComponent } from './components/main/plans/plans.component';
     CatalogComponent,
     CoachDetailsComponent,
     AddPlanComponent,
-    PlansComponent
+    PlansComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

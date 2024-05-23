@@ -1,5 +1,5 @@
 <div
-  class="form container-fluid overflow-hidden"
+  class="form container-fluid "
   style="
     background-image: url(../../../../assets/register/rodrigo-s-2mz9IKab7DE-unsplash.jpg);
     background-position: center;
@@ -9,13 +9,21 @@
 >
   <form
     class="d-flex flex-column"
-    style="margin-top: 150px;"
+    style="margin-top: 80px;"
     [formGroup]="planForm"
     (ngSubmit)="onSubmit()"
   >
   <h1 class="align-self-center fs-1 mb-5 mt-2 ">Create Plan</h1>
+
     <mat-form-field appearance="fill">
-      <mat-label>Duration</mat-label>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" />
+      <mat-error *ngIf="planForm.get('name')?.hasError('required')"
+        >Name is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Duration (Weak)</mat-label>
       <input matInput formControlName="duration" type="number" value="''" />
       <mat-error *ngIf="planForm.get('duration')?.hasError('required')"
         >Duration is required</mat-error
